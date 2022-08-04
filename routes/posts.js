@@ -3,29 +3,30 @@ const router = express.Router();
 
 //========================HTTP GET=========================
 
-/* GET index /posts. */
+/* GET posts Index /posts */
 router.get("/", (req, res, next) => {
   res.send("GET /posts");
 });
 
-/* GET index /posts/new. */ // "/new" will always comes before "show" i.e. "posts/:id"
+/* GET posts new  /posts/new */
+// "/new" will always comes before "show" i.e. "posts/:id"
 router.get("/new", (req, res, next) => {
   res.send("GET /posts/new");
-});
-
-/* GET index /posts/show. */
-router.get("/:id", (req, res, next) => {
-  res.send("GET /posts/:id");
-});
-
-/* GET index /posts/:id/edit. */
-router.get("/:id/edit", (req, res, next) => {
-  res.send("GET /posts/:id/edit");
 });
 
 //========================HTTP POST=========================
 router.post("/", (req, res, next) => {
   res.send("POST /posts");
+});
+
+/* GET posts show /posts/show */
+router.get("/:id", (req, res, next) => {
+  res.send("GET /posts/:id");
+});
+
+/* GET posts edit /posts/:id/edit */
+router.get("/:id/edit", (req, res, next) => {
+  res.send("GET /posts/:id/edit");
 });
 
 //========================HTTP PUT=========================

@@ -1,0 +1,14 @@
+<h1>Post Title: <%= post.title %></h1>
+<div>Price: <%= post.price %></div>
+<div>Description: <%= post.description %></div>
+<div>Location: <%= post.location %></div>
+<!--for redirccting to route  posts/:id/edit-->
+<div>
+  <a href="/posts/<%= post.id %>/edit">
+    <button>EDIT</button>
+  </a>
+</div>
+<!--for redirccting to route  posts/:id/DELETE-->
+<form method="post" action="/posts/<%= post.id %>?_method=DELETE">
+  <input type="submit" value="DELETE" />
+</form>

@@ -1,0 +1,36 @@
+<h1>EDIT Posts!</h1>
+
+<!-- "?_method=put" will override the POST method with PUT method -->
+<form method="post" action="/posts/<%= post.id %>?_method=PUT">
+  <div>
+    <input
+      type="text"
+      name="post[title]"
+      placeholder="Enter Title"
+      value="<%=post.title %>"
+    />
+  </div>
+  <div>
+    <input
+      type="text"
+      name="post[price]"
+      placeholder="Enter Price"
+      value="<%=post.price %>"
+    />
+  </div>
+  <div>
+    <textarea name="post[description]" placeholder="Enter Description">
+<%= post.description%></textarea
+    >
+  </div>
+  <div>
+    <input
+      type="text"
+      name="post[location]"
+      placeholder="Enter Location"
+      value="<%=post.location %>"
+    />
+  </div>
+
+  <div><input type="submit" /></div>
+</form>

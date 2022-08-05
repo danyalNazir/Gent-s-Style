@@ -7,6 +7,7 @@ const passport = require("passport");
 const session = require("express-session");
 const User = require("./models/user");
 const mongoose = require("mongoose");
+const methodOverride = require("method-override");
 
 //require routes
 const indexRouter = require("./routes/index");
@@ -17,7 +18,7 @@ const app = express();
 
 //Connect to DataBase
 mongoose
-  .connect("mongodb://localhost/Surf-Shop")
+  .connect("mongodb://localhost/Gents-Style")
   .then(() => console.log("Connected to the DataBase....."))
   .catch((err) => console.log("SORRY! Couldn't connect to the DataBase ", err));
 
@@ -27,10 +28,10 @@ app.set("view engine", "ejs");
 
 app.use(logger("dev"));
 app.use(express.json());
-app.use(express.urlencoded({ extended: false }));
+app.use(express.urlencoded({ extended: true })); // extended: true will return type instead of string
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, "public")));
-
+app.use(methodOverride("_method")); // for override the form method
 //configure Passport and Session(always comes before mounting the routes)
 /*Configure Session (always before configuring Passport) */
 app.use(

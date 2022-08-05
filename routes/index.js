@@ -6,7 +6,7 @@ const {
   getLogout,
 } = require("../controllers/index"); /*using object De-structuring syntax
 so we can get the method directly instead od getting a object*/
-const { errorHandler } = require("../middleware/index");
+const { asyncErrorHandler } = require("../middleware/index");
 
 /* GET home page. */
 router.get("/", (req, res, next) => {
@@ -19,7 +19,7 @@ router.get("/register", (req, res, next) => {
 });
 
 /* POST /register        => for create/new  registeration*/
-router.post("/register", errorHandler(postRegister));
+router.post("/register", asyncErrorHandler(postRegister));
 
 /* GET /login       => for getting login page*/
 router.get("/login", (req, res, next) => {

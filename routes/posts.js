@@ -1,42 +1,38 @@
 const express = require("express");
 const router = express.Router();
+const { asyncErrorHandler } = require("../middleware/index");
+const {
+  postIndex,
+  postNew,
+  postCreate,
+  postShow,
+  postEdit,
+  postUpdate,
+  postDelete,
+} = require("../controllers/posts");
 
 //========================HTTP GET=========================
 
 /* GET posts Index /posts */
-router.get("/", (req, res, next) => {
-  res.send("GET /posts");
-});
+router.get("/", asyncErrorHandler(postIndex));
 
-/* GET posts new  /posts/new */
+/* GET posts new  /posts/new    for rendering the views/posts/new.ejs i.e. form page*/
 // "/new" will always comes before "show" i.e. "posts/:id"
-router.get("/new", (req, res, next) => {
-  res.send("GET /posts/new");
-});
+router.get("/new", postNew);
 
 //========================HTTP POST=========================
-router.post("/", (req, res, next) => {
-  res.send("POST /posts");
-});
+router.post("/", asyncErrorHandler(postCreate));
 
 /* GET posts show /posts/show */
-router.get("/:id", (req, res, next) => {
-  res.send("GET /posts/:id");
-});
+router.get("/:id", asyncErrorHandler(postShow));
 
 /* GET posts edit /posts/:id/edit */
-router.get("/:id/edit", (req, res, next) => {
-  res.send("GET /posts/:id/edit");
-});
+router.get("/:id/edit", asyncErrorHandler(postEdit));
 
 //========================HTTP PUT=========================
-router.put("/:id", (req, res, next) => {
-  res.send("PUT /posts/:id");
-});
+router.put("/:id", asyncErrorHandler(postUpdate));
 
 //========================HTTP DELETE=========================
-router.delete("/:id", (req, res, next) => {
-  res.send("DELETE /posts/:id");
-});
+router.delete("/:id", asyncErrorHandler(postDelete));
 
 module.exports = router;

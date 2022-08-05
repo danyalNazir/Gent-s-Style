@@ -3,6 +3,10 @@ const express = require("express");
 const path = require("path");
 const cookieParser = require("cookie-parser");
 const logger = require("morgan");
+const passport = require("passport");
+const session = require("express-session");
+const User = require("./models/user");
+const mongoose = require("mongoose");
 
 //require routes
 const indexRouter = require("./routes/index");
@@ -10,6 +14,12 @@ const postsRouter = require("./routes/posts");
 const reviewsRouter = require("./routes/reviews");
 
 const app = express();
+
+//Connect to DataBase
+mongoose
+  .connect("mongodb://localhost/Surf-Shop")
+  .then(() => console.log("Connected to the DataBase....."))
+  .catch((err) => console.log("SORRY! Couldn't connect to the DataBase ", err));
 
 // view engine setup
 app.set("views", path.join(__dirname, "views"));
@@ -20,6 +30,23 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, "public")));
+
+//configure Passport and Session(always comes before mounting the routes)
+/*Configure Session (always before configuring Passport) */
+app.use(
+  session({
+    secret: "fuck you dude!",
+    resave: false,
+    saveUninitialized: true,
+  })
+);
+/*Configure Passport */
+app.use(passport.initialize());
+app.use(passport.session());
+passport.use(User.createStrategy());
+
+passport.serializeUser(User.serializeUser());
+passport.deserializeUser(User.deserializeUser());
 
 //Mount routes
 app.use("/", indexRouter);

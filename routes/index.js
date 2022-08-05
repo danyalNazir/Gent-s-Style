@@ -1,9 +1,16 @@
 const express = require("express");
 const router = express.Router();
+const {
+  postRegister,
+  postLogin,
+  getLogout,
+} = require("../controllers/index"); /*using object De-structuring syntax
+so we can get the method directly instead od getting a object*/
+const { errorHandler } = require("../middleware/index");
 
 /* GET home page. */
 router.get("/", (req, res, next) => {
-  res.render("index", { title: "Surf Shop - Home" });
+  res.render("index", { title: "Gent's Style - Home" });
 });
 
 /* GET /register        => for getting register page*/
@@ -12,9 +19,7 @@ router.get("/register", (req, res, next) => {
 });
 
 /* POST /register        => for create/new  registeration*/
-router.post("/register", (req, res, next) => {
-  res.send("POST /register");
-});
+router.post("/register", errorHandler(postRegister));
 
 /* GET /login       => for getting login page*/
 router.get("/login", (req, res, next) => {
@@ -22,9 +27,10 @@ router.get("/login", (req, res, next) => {
 });
 
 /* POST /login       => for creating login */
-router.post("/login", (req, res, next) => {
-  res.send("POST /login");
-});
+router.post("/login", postLogin);
+
+/* GET /logout      => for loging out */
+router.get("/logout", getLogout);
 
 /* GET /profile       => for getting profile page*/
 router.get("/profile", (req, res, next) => {

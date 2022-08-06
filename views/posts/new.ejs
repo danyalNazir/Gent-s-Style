@@ -1,6 +1,11 @@
 <h1>New Posts!</h1>
 <!--enctype="multipart/form-data" is for using "multer"-->
-<form method="post" action="/posts" enctype="multipart/form-data">
+<form
+  method="post"
+  action="/posts"
+  enctype="multipart/form-data"
+  id="newPostForm"
+>
   <div><input type="text" name="post[title]" placeholder="Enter Title" /></div>
   <div><input type="text" name="post[price]" placeholder="Enter Price" /></div>
   <div>
@@ -8,7 +13,13 @@
     1)accept="image/*"  meaning "any image file(jpg,png..etc)"
     2)"multiple" specifies that the user is allowed to enter more than one value in the <input>
      element-->
-    <input type="file" accept="image/*" name="images" multiple />
+    <input
+      type="file"
+      accept="image/*"
+      name="images"
+      multiple
+      id="imageUploads"
+    />
   </div>
   <div>
     <textarea
@@ -22,3 +33,14 @@
 
   <div><input type="submit" /></div>
 </form>
+
+<script>
+  let newPostForm = document.getElementById("newPostForm");
+  newPostForm.addEventListener("submit", (event) => {
+    let imageUploads = getElementById("imageUploads");
+    if (imageUploads > 4) {
+      event.preventDefault();
+      alert("You can upload 4 images at max");
+    }
+  });
+</script>

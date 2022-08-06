@@ -6,8 +6,7 @@ const postSchema = mongoose.Schema({
   description: String,
   images: [{ url: String, public_id: String }],
   location: String,
-  lat: Number, //latitude
-  lng: Number, //longitude
+  coordinates: Array,
   //Populate using Referance Approach
   auther: {
     type: mongoose.SchemaTypes.ObjectId,

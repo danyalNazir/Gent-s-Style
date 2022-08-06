@@ -1,7 +1,13 @@
 <h1>EDIT Posts!</h1>
 
 <!-- "?_method=put" will override the POST method with PUT method -->
-<form method="post" action="/posts/<%= post.id %>?_method=PUT">
+<!--enctype="multipart/form-data" is for using "multer"-->
+<form
+  method="post"
+  action="/posts/<%= post.id %>?_method=PUT"
+  id="postEditForm"
+  enctype="multipart/form-data"
+>
   <div>
     <input
       type="text"
@@ -19,6 +25,32 @@
     />
   </div>
   <div>
+    <!--here name must match the string we passed in post route using "upload.array("images",4)
+    1)accept="image/*"  meaning "any image file(jpg,png..etc)"
+    2)"multiple" specifies that the user is allowed to enter more than one value in the <input>
+     element-->
+    <input
+      type="file"
+      accept="image/*"
+      name="images"
+      id="imageUpload"
+      multiple
+    />
+    <div>
+      <% post.images.forEach(function(image,index){ %>
+      <img src="<%= image.url %>" alt="Gent's Outfit Image" width="200px" />
+      <label for="image<%= index %>">Delete?</label>
+      <input
+        type="checkbox"
+        id="image<%= index %>"
+        name="deleteImages[]"
+        value="<%= image.public_id %>"
+        class="imageDeleteCheckbox"
+      />
+      <% }); %>
+    </div>
+  </div>
+  <div>
     <textarea name="post[description]" placeholder="Enter Description">
 <%= post.description%></textarea
     >
@@ -34,3 +66,32 @@
 
   <div><input type="submit" /></div>
 </form>
+
+<!--Client side validation for image edit image upload-->
+<script>
+  //find Post edit form
+  let postEditForm = document.getElementById("postEditForm");
+  postEditForm.addEventListener("submit", (event) => {
+    //find length of uploaded images
+    let imageUploads = document.getElementById("imageUpload").files.length;
+    //find total length of existing images
+    let existingImages = document.querySelectorAll(
+      ".imageDeleteCheckbox"
+    ).length; //return length of all Selected images with class="imageDeleteCheckbox"
+    //find total number of potential deletion
+    let imageDeletions = document.querySelectorAll(
+      ".imageDeleteCheckbox:checked"
+    ).length; //return length of all Selected checked images with class="imageDeleteCheckbox"
+    //figure out if the form can be submitted or not
+    let newTotal = existingImages - imageDeletions + imageUploads;
+    if (newTotal > 4) {
+      event.preventDefault(); //prevent form from submition
+      let removalAmount = newTotal - 4;
+      alert(
+        `You need to remove at least ${removalAmount} more image${
+          removalAmount > 1 ? "s" : ""
+        }!`
+      );
+    }
+  });
+</script>

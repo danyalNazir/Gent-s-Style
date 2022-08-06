@@ -1,5 +1,11 @@
 const express = require("express");
 const router = express.Router();
+const multer = require("multer"); /*Multer is a node.js middleware for handling 
+multipart/form-data, which is primarily used for uploading files into our application.  */
+const upload = multer({
+  dest: "uploads/",
+}); /*files(images) will store in "uploads" 
+temprarily before they upload on couldinary and store URL of images in DataBase */
 const { asyncErrorHandler } = require("../middleware/index");
 const {
   postIndex,
@@ -21,7 +27,8 @@ router.get("/", asyncErrorHandler(postIndex));
 router.get("/new", postNew);
 
 //========================HTTP POST=========================
-router.post("/", asyncErrorHandler(postCreate));
+/* here "images" is the input type and 4 is max number of images can be uploaded */
+router.post("/", upload.array("images", 4), asyncErrorHandler(postCreate));
 
 /* GET posts show /posts/show */
 router.get("/:id", asyncErrorHandler(postShow));
@@ -30,7 +37,7 @@ router.get("/:id", asyncErrorHandler(postShow));
 router.get("/:id/edit", asyncErrorHandler(postEdit));
 
 //========================HTTP PUT=========================
-router.put("/:id", asyncErrorHandler(postUpdate));
+router.put("/:id", upload.array("images", 4), asyncErrorHandler(postUpdate));
 
 //========================HTTP DELETE=========================
 router.delete("/:id", asyncErrorHandler(postDelete));

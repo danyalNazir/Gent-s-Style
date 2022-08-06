@@ -2,6 +2,11 @@
 <div>Price: <%= post.price %></div>
 <div>Description: <%= post.description %></div>
 <div>Location: <%= post.location %></div>
+<div>
+  <% post.images.forEach(function(image){ %>
+  <img src="<%= image.url %>" alt="Gent's Outfit Image" width="200px" />
+  <% }); %>
+</div>
 <!--for redirccting to route  posts/:id/edit-->
 <div>
   <a href="/posts/<%= post.id %>/edit">

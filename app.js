@@ -1,3 +1,6 @@
+require("dotenv").config(); //Dotenv is a zero-dependency module that loads environment
+//variables from a .env file into process.env
+
 const createError = require("http-errors");
 const express = require("express");
 const path = require("path");
